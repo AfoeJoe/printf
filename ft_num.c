@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_num.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: tkathy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 14:24:15 by tkathy            #+#    #+#             */
-/*   Updated: 2021/01/30 00:51:00 by mac              ###   ########.fr       */
+/*   Updated: 2021/01/29 17:10:46 by tkathy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void inside_p_n_z(t_options *op, int *c_c, int neg, int n)
+void	inside_p_n_z(t_options *op, int *c_c, int neg, int n)
 {
 	if (neg)
 		op->width_num--;
@@ -26,7 +26,7 @@ void inside_p_n_z(t_options *op, int *c_c, int neg, int n)
 	}
 }
 
-void p_n_n(t_options *op, int *c_c, int numi, int neg)
+void	p_n_n(t_options *op, int *c_c, int numi, int neg)
 {
 	int len;
 	int n;
@@ -50,12 +50,12 @@ void p_n_n(t_options *op, int *c_c, int numi, int neg)
 	{
 		while (op->width_num--)
 			put_char_increase(' ', c_c);
-		return;
+		return ;
 	}
 	put_nbr_increase(numi, c_c, len);
 }
 
-void p_n_z(t_options *op, int *c_c, int numi, int neg)
+void	p_n_z(t_options *op, int *c_c, int numi, int neg)
 {
 	int len;
 	int n;
@@ -78,11 +78,11 @@ void p_n_z(t_options *op, int *c_c, int numi, int neg)
 		op->precision_num--;
 	}
 	if ((ret = handle_special(op, numi, c_c)) == 1)
-		return;
+		return ;
 	put_nbr_increase(numi, c_c, len);
 }
 
-void p_n_m(t_options *op, int *c_c, int numi, int neg)
+void	p_n_m(t_options *op, int *c_c, int numi, int neg)
 {
 	int len;
 	int n;
@@ -100,14 +100,14 @@ void p_n_m(t_options *op, int *c_c, int numi, int neg)
 	{
 		while (op->width_num-- > 0)
 			put_char_increase(' ', c_c);
-		return;
+		return ;
 	}
 	put_nbr_increase(numi, c_c, len);
 	while (op->width_num-- > len)
 		put_char_increase(' ', c_c);
 }
 
-int ft_num(t_options op, va_list args, int *c_c)
+int		ft_num(t_options op, va_list args, int *c_c)
 {
 	int numi;
 	int neg;
