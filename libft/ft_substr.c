@@ -28,9 +28,8 @@ size_t len)
 		s++;
 	}
 	beg = new_string;
-	while (*s && len)
+	while (*s && len--)
 	{
-		len--;
 		*new_string++ = *s++;
 	}
 	*new_string = '\0';

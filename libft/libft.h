@@ -6,14 +6,12 @@
 /*   By: tkathy <tkathy@student.21-school.>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/31 03:11:07 by tkathy            #+#    #+#             */
-/*   Updated: 2020/11/13 21:39:48 by tkathy           ###   ########.fr       */
+/*   Updated: 2020/11/17 18:03:21 by tkathy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# include <string.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 
