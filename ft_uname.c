@@ -76,8 +76,15 @@ void	p_u_p(t_options *op, int *character_count, unsigned int num, int len)
 void	p_u_m(t_options *op, int *character_count, unsigned int num, int len)
 {
 	int		n;
+<<<<<<< HEAD
 
 	n = op->precision_num > len ? op->precision_num : len;
+=======
+	char	c;
+
+	n = op->precision_num > len ? op->precision_num : len;
+	c = (op->flag_zero && !op->precision) ? '0' : ' ';
+>>>>>>> 2f445daa33595998223b419d0d51f7d23b9e4a89
 	while (op->precision_num > len)
 	{
 		ft_putchar_fd('0', 1);
@@ -88,7 +95,11 @@ void	p_u_m(t_options *op, int *character_count, unsigned int num, int len)
 	(*character_count) += len;
 	while (op->width_num > n)
 	{
+<<<<<<< HEAD
 		ft_putchar_fd(' ', 1);
+=======
+		ft_putchar_fd(c, 1);
+>>>>>>> 2f445daa33595998223b419d0d51f7d23b9e4a89
 		(*character_count)++;
 		op->width_num--;
 	}
@@ -102,7 +113,11 @@ int		ft_unum(t_options op, va_list args, int *c_c)
 	len = 0;
 	op.width_num = (op.width_star) ? va_arg(args, int) : op.width_num;
 	if (op.precision_star)
+<<<<<<< HEAD
 		op.precision_num = va_arg(args, int);
+=======
+		va_arg(args, int);
+>>>>>>> 2f445daa33595998223b419d0d51f7d23b9e4a89
 	initialise(&op);
 	num = va_arg(args, unsigned int);
 	len = ft_unumlen(num);
