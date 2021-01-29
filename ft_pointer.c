@@ -1,83 +1,90 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pointer.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkathy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/29 15:36:16 by tkathy            #+#    #+#             */
+/*   Updated: 2021/01/29 17:04:10 by tkathy           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void ft_pstr(char *s, int fd, int pl)
+void	p_m(t_options *op, int *c_c, unsigned long n, int len)
 {
-    int i;
+	char	*values;
+	char	c;
+	int		f;
 
-    i = 0;
-    if (!s || !fd)
-        return;
-    while (s[i] && i < pl)
-    {
-        write(fd, &s[i++], 1);
-    }
+	values = "0123456789abcdef";
+	c = (op->flag_zero && !op->precision) ? '0' : ' ';
+	f = op->precision_num > len ? op->precision_num : len;
+	while (op->precision_num > len - 2)
+	{
+		put_char_increase('0', c_c);
+		op->precision_num--;
+	}
+	if (((op->precision_num <= 0 && op->precision) || !op->precision) && n == 0)
+		ft_putstr_fd("0x", 1);
+	else
+		ft_putstr_fd("0x", 1);
+	ft_putptr_base_fd(n, 1, values);
+	(*c_c) += len;
+	while (op->width_num > f)
+	{
+		put_char_increase(c, c_c);
+		op->width_num--;
+	}
 }
 
-int ft_ptr(ft_options op, va_list args, int *character_count)
+void	p_p(t_options *op, int *c_c, unsigned long n, int len)
 {
-    unsigned long num;
-    int len;
-    char c;
-    int n;
-    char *values;
-    values = "0123456789abcdef";
+	char	*values;
+	char	c;
+	int		f;
 
-    len = 0;
-    op.width_num = (op.width_star) ? va_arg(args, int) : op.width_num;
+	values = "0123456789abcdef";
+	c = (op->flag_zero && !op->precision) ? '0' : ' ';
+	f = op->precision_num > len ? op->precision_num : len;
+	while (op->width_num > f)
+	{
+		put_char_increase(c, c_c);
+		op->width_num--;
+	}
+	if (((op->precision_num <= 0 && op->precision) || !op->precision) && n == 0)
+		ft_putstr_fd("0x", 1);
+	else
+		ft_putstr_fd("0x", 1);
+	while (op->precision_num > len - 2)
+	{
+		put_char_increase('0', c_c);
+		op->precision_num--;
+	}
+	ft_putptr_base_fd(n, 1, values);
+	(*c_c) += len;
+}
 
-    op.precision_num = (op.precision_star) ? va_arg(args, int) : op.precision_num;
-    c = (op.flag_zero && !op.precision) ? '0' : ' ';
-    num = va_arg(args, unsigned long);
+int		ft_ptr(t_options op, va_list a, int *c_c)
+{
+	unsigned long	num;
+	int				len;
 
-    len = ft_ptrlen(num) + 2;
-    if (op.precision && op.precision_num == 0 && num == 0)
-    {
-        (*character_count) += 2;
-        while (op.width_num-- > 2)
-            put_char_increase(' ', character_count);
-        ft_putstr_fd("0x", 1);
-    }
-    else
-    {
-        if (op.flag_minus)
-        {
-            n = op.precision_num > len ? op.precision_num : len;
-
-            while (op.precision_num > len - 2)
-            {
-                put_char_increase('0', character_count);
-                op.precision_num--;
-            }
-            (((op.precision_num <= 0 && op.precision) || !op.precision) && num == 0) ? ft_putstr_fd("0x", 1) : ft_putstr_fd("0x", 1);
-
-            ft_putptr_base_fd(num, 1, values);
-            (*character_count) += len;
-
-            while (op.width_num > n)
-            {
-                put_char_increase(c, character_count);
-                op.width_num--;
-            }
-        }
-        else
-        {
-            n = op.precision_num > len ? op.precision_num : len;
-            while (op.width_num > n)
-            {
-                put_char_increase(c, character_count);
-                op.width_num--;
-            }
-            (((op.precision_num <= 0 && op.precision) || !op.precision) && num == 0) ? ft_putstr_fd("0x", 1) : ft_putstr_fd("0x", 1);
-
-            while (op.precision_num > len - 2)
-            {
-                put_char_increase('0', character_count);
-                op.precision_num--;
-            }
-
-            ft_putptr_base_fd(num, 1, values);
-            (*character_count) += len;
-        }
-    }
-    return (3);
+	len = 0;
+	op.width_num = (op.width_star) ? va_arg(a, int) : op.width_num;
+	op.precision_num = (op.precision_star) ? va_arg(a, int) : op.precision_num;
+	initialise(&op);
+	num = va_arg(a, unsigned long);
+	len = ft_ptrlen(num) + 2;
+	if (op.precision && op.precision_num == 0 && num == 0)
+	{
+		(*c_c) += 2;
+		while (op.width_num-- > 2)
+			put_char_increase(' ', c_c);
+		ft_putstr_fd("0x", 1);
+	}
+	else
+		(op.flag_minus) ? p_m(&op, c_c, num, len) : p_p(&op, c_c, num, len);
+	return (3);
 }

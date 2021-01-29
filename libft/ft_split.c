@@ -6,7 +6,7 @@
 /*   By: tkathy <tkathy@student.21-school.>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/09 20:12:06 by tkathy            #+#    #+#             */
-/*   Updated: 2020/11/15 19:19:51 by tkathy           ###   ########.fr       */
+/*   Updated: 2020/11/20 09:29:09 by tkathy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,72 +14,71 @@
 
 static int	count_words(char const *s, char c)
 {
-	int count;
+	unsigned int	i;
+	int				count;
 
+	i = 0;
 	count = 0;
-	if (!*s)
-		return (0);
-	while (*s)
+	while (s[i])
 	{
-		if (*s == c)
-		{
-			while (*s && *s == c)
-				s++;
+		while (s[i] == c)
+			i++;
+		if (s[i] != '\0')
 			count++;
-			continue ;
-		}
-		s++;
+		while (s[i] && (s[i] != c))
+			i++;
 	}
-	return ((*(--s) == c) ? count : count + 1);
+	return (count);
 }
 
 static int	get_word_len(char const *s, char c)
 {
-	size_t count;
+	size_t len;
 
-	count = 0;
-	while (*s && *s == c)
-		s++;
-	while (*s && *s++ != c)
-		count++;
-	return (count);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
 }
 
-static char	**get_result(char **arr, char const *s, size_t word_no, char c)
+static void	*ft_free(void **arr, size_t size)
 {
-	size_t i;
-	size_t word_len;
+	size_t	i;
 
 	i = 0;
-	while (*s && i < word_no)
+	while (i < size)
 	{
-		word_len = get_word_len(s, c);
-		if ((arr[i] = ft_substr(s, 0, word_len)) == 0)
-		{
-			while (i)
-				free(arr[i--]);
-			free(arr);
-		}
-		s = s + word_len;
-		while (*s == c)
-			s++;
+		free(arr[i]);
 		i++;
 	}
-	arr[i] = NULL;
-	return (arr);
+	free(arr);
+	return (0);
 }
 
 char		**ft_split(char const *s, char c)
 {
-	char	**arr;
-	size_t	word_no;
+	char	**result;
+	size_t	word_len;
+	size_t	j;
+	size_t	words_no;
 
-	if (!s || !c)
+	if (!(s))
 		return (0);
-	while (*s && *s == c)
-		s++;
-	word_no = count_words(s, c);
-	if ((arr = (char **)malloc(sizeof(char *) * (word_no + 1))) == 0)
-		return (NULL);
-	return (get_result(arr, s, word_no, c));
+	words_no = count_words(s, c);
+	if (!(result = (char**)malloc(sizeof(char*) * (words_no + 1))))
+		return (0);
+	j = 0;
+	while (words_no--)
+	{
+		while (*s == c && *s != '\0')
+			s++;
+		word_len = get_word_len(s, c);
+		if (!(result[j] = (char*)malloc((word_len + 1) * sizeof(char))))
+			return (ft_free((void**)result, j));
+		ft_strlcpy(result[j], s, word_len + 1);
+		s += word_len;
+		j++;
+	}
+	result[j] = 0;
+	return (result);
 }

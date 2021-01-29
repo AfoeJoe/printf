@@ -6,13 +6,13 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 22:21:57 by mac               #+#    #+#             */
-/*   Updated: 2021/01/29 00:34:27 by mac              ###   ########.fr       */
+/*   Updated: 2021/01/29 17:10:49 by tkathy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void		ft_random_func(const char **format, ft_options *ft_op)
+void		ft_random_func(const char **format, t_options *ft_op)
 {
 	while (**format == '0' || **format == '-')
 	{
@@ -38,7 +38,7 @@ void		ft_random_func(const char **format, ft_options *ft_op)
 	}
 }
 
-void		ft_random_func2(const char **f, ft_options *ft_op)
+void		ft_random_func2(const char **f, t_options *ft_op)
 {
 	char *options;
 
@@ -66,11 +66,11 @@ void		ft_random_func2(const char **f, ft_options *ft_op)
 	}
 }
 
-ft_options	parse_for_struct(const char **format)
+t_options	parse_for_struct(const char **format)
 {
-	ft_options ft_op;
+	t_options ft_op;
 
-	ft_bzero(&ft_op, sizeof(ft_options));
+	ft_bzero(&ft_op, sizeof(t_options));
 	if (**format == ' ')
 	{
 		while (**format == ' ')

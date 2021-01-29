@@ -6,13 +6,13 @@
 /*   By: mac <mac@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 00:46:08 by mac               #+#    #+#             */
-/*   Updated: 2021/01/29 01:01:21 by mac              ###   ########.fr       */
+/*   Updated: 2021/01/29 17:01:38 by tkathy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_char(ft_options op, va_list args, int *character_count)
+int		ft_char(t_options op, va_list args, int *character_count)
 {
 	char c;
 
